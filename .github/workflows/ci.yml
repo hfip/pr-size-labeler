@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Size rules
+        run: bash tests/size_test.sh
+      - name: Shell syntax
+        run: |
+          bash -n scripts/size.sh
+          bash -n scripts/apply.sh
+          bash -n tests/size_test.sh

@@ -1,0 +1,46 @@
+name: PR size labeler
+description: Label a pull request by the number of changed lines, and keep one label
+
+branding:
+  icon: tag
+  color: blue
+
+inputs:
+  token:
+    description: Token with issues:write on the repository, usually ${{ secrets.GITHUB_TOKEN }}
+    required: true
+  prefix:
+    description: Prefix for the label names
+    required: false
+    default: "size/"
+  xs-max:
+    description: Changed lines below this are labelled xs
+    required: false
+    default: "10"
+  s-max:
+    description: Changed lines below this are labelled s
+    required: false
+    default: "100"
+  m-max:
+    description: Changed lines below this are labelled m
+    required: false
+    default: "500"
+  l-max:
+    description: Changed lines below this are labelled l
+    required: false
+    default: "1000"
+
+runs:
+  using: composite
+  steps:
+    - name: Apply size label
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        LABEL_PREFIX: ${{ inputs.prefix }}
+        SIZE_XS_MAX: ${{ inputs.xs-max }}
+        SIZE_S_MAX: ${{ inputs.s-max }}
+        SIZE_M_MAX: ${{ inputs.m-max }}
+        SIZE_L_MAX: ${{ inputs.l-max }}
+      run: bash "$GITHUB_ACTION_PATH/scripts/apply.sh"
