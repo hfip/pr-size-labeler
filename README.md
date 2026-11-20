@@ -93,3 +93,4 @@ colour map. CI runs it on every push.
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
