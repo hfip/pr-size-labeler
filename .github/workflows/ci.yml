@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Action manifest guard
+        run: |
+          # The secrets context is not available inside action metadata.
+          if grep -nE '\{\{[[:space:]]*secrets\.' action.yml; then
+            echo "::error::action.yml must not reference the secrets context"
+            exit 1
+          fi
       - name: Size rules
         run: bash tests/size_test.sh
       - name: Shell syntax

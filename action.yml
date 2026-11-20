@@ -7,7 +7,7 @@ branding:
 
 inputs:
   token:
-    description: Token with issues:write on the repository, usually ${{ secrets.GITHUB_TOKEN }}
+    description: Token with issues:write on the repository, normally the GITHUB_TOKEN secret
     required: true
   prefix:
     description: Prefix for the label names
